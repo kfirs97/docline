@@ -1,4 +1,4 @@
-# Docline — Python Docstring Generator
+# Docline — Instant Python Docstrings
 
 **Type `"""` under a function and get a complete docstring.** Docline reads your signature and body — parameters, type hints, defaults, return type, `yield`s and `raise`s — and writes a Google, NumPy or Sphinx docstring with tab stops for every description.
 
