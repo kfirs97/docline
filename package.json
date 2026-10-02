@@ -1,6 +1,6 @@
 {
   "name": "docline-python-docstring-generator",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "scripts": {
     "build": "node esbuild.mjs",
     "test": "node esbuild.mjs --tests && node --test dist-test/*.test.js",
@@ -16,7 +16,7 @@
     "ovsx": "^1.2.0",
     "typescript": "^5.9.3"
   },
-  "displayName": "Docline \u2014 Instant Python Docstrings",
+  "displayName": "Docline — Instant Python Docstrings",
   "description": "Generate Python docstrings instantly: type \"\"\" under a function to get Google, NumPy or Sphinx docstrings with params, types, defaults, returns, yields and raises. A maintained alternative to autoDocstring.",
   "publisher": "branchline",
   "license": "SEE LICENSE IN LICENSE",

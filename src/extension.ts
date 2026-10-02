@@ -3,6 +3,7 @@ import { Definition, findDefinitionAbove, parseDefinition } from './parse';
 import { docstring, snippetToText, Style } from './generate';
 import { License } from './license';
 import { BUY_URL } from './licenseVerify';
+import { recordUse } from './nudge';
 
 const settings = () => {
   const c = vscode.workspace.getConfiguration('docline');
@@ -36,6 +37,7 @@ class DocstringCompletion implements vscode.CompletionItemProvider {
     item.filterText = quote[2];
     item.sortText = '\0';
     item.preselect = true;
+    item.command = { command: 'docline.used', title: '' };
     return [item];
   }
 }
@@ -68,6 +70,7 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
       if (!def) return void vscode.window.showInformationMessage('Put the cursor inside a Python function or class to generate its docstring.');
       if (def.hasDocstring) return void vscode.window.showInformationMessage(`${def.name} already has a docstring.`);
       await insertDocstring(editor, def);
+      void recordUse(context, license);
     }),
     vscode.commands.registerTextEditorCommand('docline.generateFile', async editor => {
       if (!(await license.require('Documenting a whole file'))) return;
@@ -85,6 +88,7 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
       });
       void vscode.window.showInformationMessage(`Docline added ${defs.length} docstring${defs.length === 1 ? '' : 's'}.`);
     }),
+    vscode.commands.registerCommand('docline.used', () => recordUse(context, license)),
     vscode.commands.registerCommand('docline.enterLicense', () => license.enterKey()),
     vscode.commands.registerCommand('docline.removeLicense', () => license.removeKey()),
     vscode.commands.registerCommand('docline.buyPro', () => vscode.env.openExternal(vscode.Uri.parse(BUY_URL))),
